@@ -6,6 +6,9 @@ import com.todoproject.app.demo.Repository.TasksHistoryRepository;
 import com.todoproject.app.demo.Repository.TodoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -52,9 +55,15 @@ public class TodoController {
 
     @DeleteMapping(value = "/delete/{id}")
     @Transactional
-    public String deleteTask(@PathVariable long id) {
-        tasksHistoryRepository.deleteByTaskId(id);
-        todoRepository.deleteById(id);
-        return "Delete task";
+    public ResponseEntity<String> deleteTask(@PathVariable long id) {
+        try {
+            tasksHistoryRepository.deleteByTaskId(id);
+            todoRepository.deleteById(id);
+            return ResponseEntity.ok("Delete task");
+        } catch (EmptyResultDataAccessException err) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

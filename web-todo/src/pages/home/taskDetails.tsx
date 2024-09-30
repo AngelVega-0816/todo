@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import TaskCard from "../../components/taskCard";
+import TaskCard from "../../components/TaskCard";
 import {
   getTasksHistory,
   TaskHistoryType,
@@ -7,6 +7,7 @@ import {
 } from "../../service/tasks.service";
 import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
+import CardEditableTask from "../../components/CardEditableTask";
 
 interface TaskDetailsProps {
   setSelectedId: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -20,7 +21,7 @@ const TaskDetails = ({ setSelectedId, task }: TaskDetailsProps) => {
   }>({ history: [], load: true });
 
   useEffect(() => {
-    console.log(task);
+    // console.log(task);
     getTasksHistory(task.id)
       .then((res) => {
         setTaskHistory((prev) => ({ ...prev, history: res }));
@@ -55,7 +56,7 @@ const TaskDetails = ({ setSelectedId, task }: TaskDetailsProps) => {
           style={{ width: 250, height: 358 }}
           onClick={(e) => e.stopPropagation()}
         >
-          <TaskCard {...task} />
+          <CardEditableTask {...task} editable />
         </motion.div>
         <Stack direction="column">
           {!taskHistory.load &&
@@ -63,6 +64,7 @@ const TaskDetails = ({ setSelectedId, task }: TaskDetailsProps) => {
               <TaskCard
                 description={history.description}
                 title={history.title}
+                id={history.id}
                 key={history.id}
               />
             ))}

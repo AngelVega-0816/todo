@@ -37,6 +37,55 @@ const saveTask = async (task: TaskBaseType): Promise<TaskType> => {
   }
 };
 
+const editTask = async (newTask: TaskType): Promise<TaskType> => {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/updatetask/${newTask.id}`,
+      newTask
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        console.error("Tarea no encontrada");
+        throw new Error("Tarea no encontrada");
+      } else if (error.response?.status === 500) {
+        console.error("Error interno del servidor");
+        throw new Error("Error interno del servidor");
+      } else {
+        console.error(error);
+        throw error;
+      }
+    } else {
+      console.error(error);
+      throw error;
+    }
+  }
+};
+
+const deleteTask = async (idTask: number): Promise<string> => {
+  try {
+    const response = await axios.delete(`${config.apiUrl}/delete/${idTask}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        console.error("Tarea no encontrada");
+        throw new Error("Tarea no encontrada");
+      } else if (error.response?.status === 500) {
+        console.error("Error interno del servidor");
+        throw new Error("Error interno del servidor");
+      } else {
+        console.error(error);
+        throw error;
+      }
+    } else {
+      console.error(error);
+      throw error;
+    }
+  }
+};
+
 const getTasksHistory = async (id: number): Promise<TaskHistoryType[]> => {
   try {
     const response = await axios.get(`${config.apiUrl}/taskshistory/${id}`);
@@ -47,4 +96,4 @@ const getTasksHistory = async (id: number): Promise<TaskHistoryType[]> => {
   }
 };
 
-export { getTasks, saveTask, getTasksHistory };
+export { getTasks, saveTask, editTask, deleteTask, getTasksHistory };

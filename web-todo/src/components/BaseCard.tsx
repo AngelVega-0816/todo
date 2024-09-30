@@ -1,5 +1,5 @@
 import { Stack, SxProps, Theme } from "@mui/material";
-import { BorderSide } from "../../utils/gridArray.utils";
+import { BorderSide } from "../utils/gridArray.utils";
 
 interface BaseCardProps {
   occupiedSides: string | undefined;
@@ -53,7 +53,6 @@ const BaseCard = ({ occupiedSides, children, custom }: BaseCardProps) => {
       sx={{
         ...sx,
         ...custom,
-        // border: ({ pale }) => "",
       }}
     >
       {children}

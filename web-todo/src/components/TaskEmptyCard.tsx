@@ -1,8 +1,7 @@
-import { ChangeEvent } from "react";
-import BaseCard from "../baseCard";
-import InputText from "../inputText";
-import { saveTask } from "../../service/tasks.service";
-import useTaskStore from "../../store/taskStore";
+import { saveTask } from "../service/tasks.service";
+import useTaskStore from "../store/taskStore";
+import BaseCard from "./BaseCard";
+import InputText from "./InputText";
 
 const TaskEmptyCard = ({ occupiedSides }: { occupiedSides: string }) => {
   const { addTask } = useTaskStore();
@@ -19,10 +18,6 @@ const TaskEmptyCard = ({ occupiedSides }: { occupiedSides: string }) => {
       .catch((err) => console.log("Hubo un error", err));
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
-
   return (
     <BaseCard
       occupiedSides={occupiedSides}
@@ -31,8 +26,8 @@ const TaskEmptyCard = ({ occupiedSides }: { occupiedSides: string }) => {
       }}
       children={
         <form onSubmit={handleSubmit}>
-          <InputText getChanges={handleChange} name="title" />
-          <InputText maxRows={5} getChanges={handleChange} name="description" />
+          <InputText name="title" />
+          <InputText maxRows={5} name="description" />
           <button type="submit">GUARDAR</button>
         </form>
       }

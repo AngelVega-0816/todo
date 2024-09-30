@@ -1,12 +1,12 @@
 import { Grid2 } from "@mui/material";
-import TaskCard from "../../components/taskCard";
+import TaskCard from "../../components/TaskCard";
 import { useEffect, useState } from "react";
 import { useGridCounter } from "../../hooks/useGridCounter";
 import { getOccupiedSides } from "../../utils/gridArray.utils";
 import { AnimatePresence, motion } from "framer-motion";
 import TaskDetails from "./taskDetails";
-import TaskEmptyCard from "../../components/taskEmptyCard";
 import useTaskStore from "../../store/taskStore";
+import TaskEmptyCard from "../../components/TaskEmptyCard";
 
 const GridCards = () => {
   const { tasks, getTasks } = useTaskStore();
